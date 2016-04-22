@@ -18,7 +18,6 @@ end
 
 require 'rake'
 require 'yaml'
-require 'active_record'
 
 task :environment do
   require_relative 'application'

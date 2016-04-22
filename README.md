@@ -1,8 +1,7 @@
 Clickstore
 ==========
 
-Worker process for storing clicks from redis to postgres. Separating the logic
-from tracking to separate project.
+Worker process for storing in-app tracking events from redis to kafka.
 
 Development
 ----------
@@ -20,4 +19,4 @@ Start the worker and web frontend with:
 Deployment
 ----------
 
-[![Deploy To Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/eccrine/clickstore)
+[![Deploy To Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/eccrine/kafkastore)

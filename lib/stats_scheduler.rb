@@ -12,6 +12,8 @@ class StatsScheduler
     workers = Sidekiq::Workers.new
     redis   = redis_info
 
+    return if ENV['LIBRATO_USER'].nil?
+
     $librato_queue.add(
       "click_queue_size"               => redis_queue.size,
       "click_invalid_queue_size"       => redis_invalid_queue.size,

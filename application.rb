@@ -13,11 +13,8 @@ if File.exists?(".env")
   Dotenv.load
 end
 
-require_relative 'config/initializers/ruby_extensions'
-require_relative 'config/initializers/librato'
-require_relative 'config/initializers/database'
-require_relative 'config/initializers/redis'
-require_relative 'config/initializers/sidekiq'
+Dir[File.join(File.dirname(__FILE__),'config', 'initializers','*.rb')].
+  each { |a| require_relative a }
 
 %w[lib routes].each do |path|
   Dir[File.join(File.dirname(__FILE__), path, "*.rb")].each do |lib|

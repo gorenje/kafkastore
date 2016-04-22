@@ -1,10 +1,4 @@
-require 'pg'
-
 class BatchInserter
-  DB_CONNECTION_ERRORS = [
-    PG::Error
-  ]
-
   class Result < Struct.new(:invalid, :failed); end
 
   attr_reader :result, :raw_clicks
@@ -16,18 +10,18 @@ class BatchInserter
 
   def do_insert
     begin
+      producer = $kafka.producer
+
       with_connection do
-        clicks = raw_clicks.map do |raw|
-          Click.new(raw)
+        raw_clicks.map do |raw|
+          producer.produce("%s %s %s" % [raw[:raw],raw[:country],raw[:device]],
+                           :topic => raw[:topic])
         end
 
         measure(:batch_insert) do
-          Click.import(Click.columns.map(&:name)-["id"], clicks,
-                       :timestamps => false)
+          producer.deliver_messages
         end
       end
-    rescue ActiveRecord::StatementInvalid => e
-      do_single_inserts
     rescue Timeout::Error, *DB_CONNECTION_ERRORS => e
       $stderr.puts "db connection problem (batch): " + e.message
       result.failed += raw_clicks
@@ -39,29 +33,9 @@ class BatchInserter
 
 private
 
-  def do_single_inserts
-    raw_clicks.each do |raw|
-      begin
-        with_connection(10) do
-          measure(:single_insert) do
-            Click.create(raw)
-          end
-        end
-      rescue ActiveRecord::StatementInvalid => e
-        $stderr.puts e.message
-        result.invalid << raw
-      rescue Timeout::Error, *DB_CONNECTION_ERRORS => e
-        $stderr.puts "db connection problem (single): " + e.message
-        result.failed << raw
-      end
-    end
-  end
-
   def with_connection(timout = 60)
     Timeout::timeout(timout) do
-      ActiveRecord::Base.connection_pool.with_connection do
-        yield
-      end
+      yield
     end
   end
 

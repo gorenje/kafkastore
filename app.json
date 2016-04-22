@@ -38,6 +38,9 @@
     },
     "LIBRATO_USER": {
       "description": "Name of the librato user, i.e. email"
+    },
+    "KAFKA_HOST": {
+      "description": "Name of the kafka host"
     }
   },
   "addons": [

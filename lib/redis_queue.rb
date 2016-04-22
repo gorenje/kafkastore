@@ -9,10 +9,6 @@ class RedisQueue
   end
 
   def push(elements)
-    elements = elements.map do |element|
-      encode(element)
-    end
-
     with_redis do |redis|
       redis.pipelined do |pipe|
         elements.each {|e| pipe.rpush(key, e)}
@@ -21,21 +17,15 @@ class RedisQueue
   end
 
   def pop(number_of_elements = 20)
-    elements = with_redis do |redis|
+    with_redis do |redis|
       redis.pipelined do |pipe|
         number_of_elements.times { pipe.lpop(key) }
       end
     end
-
-    elements.compact.map do |element|
-      decode(element)
-    end
   end
 
   def peek_all
-    with_redis { |redis| redis.lrange(key, 0, redis.llen(key)) }.map do |e|
-      decode(e)
-    end
+    with_redis { |redis| redis.lrange(key, 0, redis.llen(key)) }
   end
 
   def size
@@ -47,14 +37,6 @@ class RedisQueue
   end
 
   protected
-
-  def encode(element)
-    JSON.dump(element)
-  end
-
-  def decode(element)
-    JSON.parse(element)
-  end
 
   def with_redis
     connection_pool.with do |redis|

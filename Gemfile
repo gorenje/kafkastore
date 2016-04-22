@@ -2,7 +2,7 @@
 
 source 'http://rubygems.org'
 
-ruby '2.2.0'
+ruby '2.2.3'
 
 gem 'sinatra'
 gem 'sinatra-contrib'
@@ -18,12 +18,6 @@ gem 'foreman'
 gem 'oj'
 gem 'oj_mimic_json'
 
-gem 'activerecord'
-gem 'activerecord-postgresql-adapter'
-gem 'activerecord-import'
-gem 'active_record_migrations'
-gem 'pg'
-
 gem 'redis'
 gem 'hiredis'
 
@@ -32,6 +26,10 @@ gem 'sidekiq-cron'
 
 gem 'librato-metrics'
 gem 'librato-rack'
+
+gem 'maxminddb'
+gem 'device_detector', :github => 'wlf/device_detector'
+gem 'ruby-kafka'
 
 group :development do
   gem 'dotenv'
