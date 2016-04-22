@@ -5,7 +5,7 @@ class BatchWorker
 
   attr_reader :redis_queue
 
-  DefaultCountry = OpenStruct.new(:iso_code => "NOCO")
+  DefaultCountry = OpenStruct.new(:iso_code => nil)
 
   def initialize
     @redis_queue = RedisQueue.new($redis_pool, :click_queue)
@@ -24,10 +24,15 @@ class BatchWorker
       next if str.nil?
 
       splt = str.split
-      { :raw     => (splt[0..1] + splt[3..4]).join(" "),
+      { :meta => {
+          :ip      => IPAddr.new(splt[0]).to_i,
+          :ts      => splt[1],
+          :country => country_for_ip(splt[0]).iso_code,
+          :device  => DeviceDetector.new(splt[5..-1].join(" ")).device_type
+        },
         :topic   => splt[2],
-        :country => country_for_ip(splt[0]).iso_code || "NOCO",
-        :device  => DeviceDetector.new(splt[5..-1].join(" ")).device_type
+        :path    => splt[3],
+        :params  => splt[4],
       }
     end.compact
 

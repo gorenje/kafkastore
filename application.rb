@@ -7,6 +7,8 @@ require 'omniauth-google-oauth2'
 
 require 'erb'
 require 'timeout'
+require 'ipaddr'
+require 'addressable/uri'
 
 if File.exists?(".env")
   require 'dotenv'
