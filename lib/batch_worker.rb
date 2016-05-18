@@ -24,11 +24,14 @@ class BatchWorker
       next if str.nil?
 
       splt = str.split
+      dd   = DeviceDetector.new(splt[5..-1].join(" "))
+
       { :meta => {
-          :ip      => IPAddr.new(splt[0]).to_i,
-          :ts      => splt[1],
-          :country => country_for_ip(splt[0]).iso_code,
-          :device  => DeviceDetector.new(splt[5..-1].join(" ")).device_type
+          :ip       => IPAddr.new(splt[0]).to_i,
+          :ts       => splt[1],
+          :country  => country_for_ip(splt[0]).iso_code,
+          :device   => dd.device_type,
+          :platform => dd.os_name.to_s.downcase
         },
         :topic   => splt[2],
         :path    => splt[3],
