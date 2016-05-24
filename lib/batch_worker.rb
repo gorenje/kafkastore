@@ -29,6 +29,7 @@ class BatchWorker
       { :meta => {
           :ip          => IPAddr.new(splt[0]).to_i,
           :ts          => splt[1],
+          :klag        => Time.now.to_i - splt[1].to_i,
           :country     => country_for_ip(splt[0]).iso_code,
           :device      => dd.device_type,
           :platform    => dd.os_name.to_s.downcase,
