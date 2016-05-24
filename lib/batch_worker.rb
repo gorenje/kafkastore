@@ -27,11 +27,13 @@ class BatchWorker
       dd   = DeviceDetector.new(splt[5..-1].join(" "))
 
       { :meta => {
-          :ip       => IPAddr.new(splt[0]).to_i,
-          :ts       => splt[1],
-          :country  => country_for_ip(splt[0]).iso_code,
-          :device   => dd.device_type,
-          :platform => dd.os_name.to_s.downcase
+          :ip          => IPAddr.new(splt[0]).to_i,
+          :ts          => splt[1],
+          :country     => country_for_ip(splt[0]).iso_code,
+          :device      => dd.device_type,
+          :platform    => dd.os_name.to_s.downcase,
+          :bot_name    => dd.bot_name,
+          :device_name => dd.device_name
         },
         :topic   => splt[2],
         :path    => splt[3],

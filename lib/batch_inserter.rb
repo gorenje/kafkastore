@@ -25,7 +25,7 @@ class BatchInserter
           producer.deliver_messages
         end
       end
-    rescue Timeout::Error, *DB_CONNECTION_ERRORS => e
+    rescue Timeout::Error => e
       $stderr.puts "db connection problem (batch): " + e.message
       result.failed += raw_clicks
     end
