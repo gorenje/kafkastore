@@ -30,3 +30,7 @@ Sidekiq.configure_client do |config|
 end
 
 Sidekiq.default_worker_options = { 'backtrace' => true }
+
+class SidekiqWebNoSessions < Sidekiq::Web
+  disable :sessions
+end
