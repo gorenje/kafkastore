@@ -99,12 +99,13 @@ Scalability
 
 Since redis is [single thread](http://redis.io/topics/faq), there is little
 point in increasing the number of workers. Instead, to scale this, redeploy
-to heroku as many of kafkastores as necessary.
+to heroku as many kafkastores as necessary.
 
 Each kafkastore deployment gets a new redis and the new redis can be
 configured on the
 [tracker side](https://github.com/adtekio/tracking.inapp/blob/f397a02d09cc11268deaf32edd70b8009894f7b8/app.json#L16-L21) (and [here](https://github.com/adtekio/tracking.clicks/blob/a12fe1dad1364c34c1856fdf599b9afb3e0ab0fe/app.json#L16-L21)), so that the trackers store events in
-round robin way across all instances of the kafkastore code.
+round robin way across all instances of the kafkastore code. Configuration
+of new redis for the trackers does not require redeployment of the trackers.
 
 The number of clickstores that can be configured for a tracker is not limited,
 currently two are given as example, however ```_3```, ```_4```, etc are
