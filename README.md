@@ -57,7 +57,7 @@ The [message format](https://github.com/adtekio/kafkastore/blob/a9e3670011c71fcc
 Of course, the assumption made here is that tracking calls will always be
 simple in nature (i.e. not binary values) and the paramters will always be
 key/value pairs (i.e. CGI/URL parameters). This might not be the case if post
-requests are used for tracking events.
+requests are used for tracking events but that is out-of-scope here.
 
 ### Example
 
@@ -71,7 +71,9 @@ An example of a typical kafka message:
    after the final '/' (slash).
 2. Meta dataset, this is in the form of CGI encoded parameter/value pairs.
    The meta data is generated exclusively by the kafkastore and its values
-   are based on the IP and user agent information.
+   are based on the IP and user agent information. In addition, there is
+   ```klag``` value the represents the time (in seconds) of how long the
+   message waited in [redis before being pushed to kafka](https://github.com/adtekio/kafkastore/blob/a9e3670011c71fcc669a46e62df95d06683cae79/lib/batch_worker.rb#L32).
 3. Query string of the original request. This is just passed through from
    the tracker, unmodified.
 
@@ -91,6 +93,22 @@ The worker in turn runs the [inserter](https://github.com/adtekio/kafkastore/blo
 
 The difference here, the worker is given a batch size to pop off redis and
 is only enqueued if there are redis events waiting in the queue.
+
+Scalability
+----
+
+Since redis is [single thread](http://redis.io/topics/faq), there is little
+point in increasing the number of workers. Instead, to scale this, redeploy
+to heroku as many of kafkastores as necessary.
+
+Each kafkastore deployment gets a new redis and the new redis can be
+configured on the
+[tracker side](https://github.com/adtekio/tracking.inapp/blob/f397a02d09cc11268deaf32edd70b8009894f7b8/app.json#L16-L21) (and [here](https://github.com/adtekio/tracking.clicks/blob/a12fe1dad1364c34c1856fdf599b9afb3e0ab0fe/app.json#L16-L21)), so that the trackers store events in
+round robin way across all instances of the kafkastore code.
+
+The number of clickstores that can be configured for a tracker is not limited,
+currently two are given as example, however ```_3```, ```_4```, etc are
+possible.
 
 Development
 ----
