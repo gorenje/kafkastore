@@ -42,6 +42,12 @@ GEM
     hetchy (1.0.0)
     hiredis (0.6.1)
     i18n (0.7.0)
+    jasmine (2.4.0)
+      jasmine-core (~> 2.4)
+      phantomjs
+      rack (>= 1.2.1)
+      rake
+    jasmine-core (2.4.1)
     json (1.8.3)
     jwt (1.5.1)
     kgio (2.10.0)
@@ -55,12 +61,9 @@ GEM
       hetchy (~> 1.0)
       librato-metrics (~> 1.6)
     maxminddb (0.1.11)
-    metaclass (0.0.4)
     method_source (0.8.2)
     mime-types (1.25.1)
     minitest (5.8.4)
-    mocha (1.1.0)
-      metaclass (~> 0.0.1)
     multi_json (1.11.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
@@ -87,6 +90,7 @@ GEM
     omniauth-oauth2 (1.4.0)
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
+    phantomjs (2.1.1.0)
     pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -97,6 +101,7 @@ GEM
     rack-test (0.6.3)
       rack (>= 1.0)
     raindrops (0.16.0)
+    rake (10.5.0)
     rdoc (4.2.2)
       json (~> 1.4)
     redis (3.2.2)
@@ -105,6 +110,7 @@ GEM
     rest-client (1.6.8)
       mime-types (~> 1.16)
       rdoc (>= 2.4.2)
+    rr (1.0.4)
     ruby-kafka (0.3.4)
     rubyzip (1.1.7)
     rufus-scheduler (3.2.0)
@@ -154,17 +160,20 @@ DEPENDENCIES
   foreman
   heroku
   hiredis
+  jasmine
   librato-metrics
   librato-rack
   maxminddb
   minitest
-  mocha
   oj
   oj_mimic_json
   omniauth
   omniauth-google-oauth2
   pry
+  rack-test
+  rake (= 10.5.0)
   redis
+  rr (= 1.0.4)
   ruby-kafka
   shoulda
   sidekiq
