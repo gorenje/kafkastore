@@ -5,10 +5,10 @@ require 'sinatra'
 require 'omniauth'
 require 'omniauth-google-oauth2'
 
-require 'erb'
 require 'timeout'
 require 'ipaddr'
 require 'addressable/uri'
+require 'tilt/erb'
 
 if File.exists?(".env")
   require 'dotenv'

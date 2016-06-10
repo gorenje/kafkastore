@@ -56,19 +56,23 @@ class BatchWorker
     splt = str.split
     dd   = DeviceDetector.new(splt[5..-1].join(" "))
 
-    { :meta => {
-        :ip          => IPAddr.new(splt[0]).to_i,
-        :ts          => splt[1],
-        :klag        => Time.now.to_i - splt[1].to_i,
-        :country     => country_for_ip(splt[0]).iso_code,
-        :device      => dd.device_type,
-        :platform    => dd.os_name.to_s.downcase,
-        :bot_name    => dd.bot_name,
-        :device_name => dd.device_name
-      },
-      :topic   => splt[2],
-      :path    => splt[3],
-      :params  => splt[4],
+    uri = Addressable::URI.new
+    uri.query_values = {
+      :ip          => IPAddr.new(splt[0]).to_i,
+      :ts          => splt[1],
+      :klag        => Time.now.to_i - splt[1].to_i,
+      :country     => country_for_ip(splt[0]).iso_code,
+      :device      => dd.device_type,
+      :platform    => dd.os_name.to_s.downcase,
+      :bot_name    => dd.bot_name,
+      :device_name => dd.device_name
+    }
+
+    {
+      :path   => splt[3],
+      :meta   => uri.query,
+      :topic  => splt[2],
+      :params => splt[4],
     }
   end
 end

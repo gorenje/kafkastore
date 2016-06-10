@@ -3,6 +3,8 @@ ENV['RACK_ENV']      = 'test'
 ENV['IP']            = 'www.example.com'
 ENV['PORT']          = '9999'
 ENV['TZ']            = 'UTC'
+ENV['REDISTOGO_URL'] = "redis://localhost:6379/27"
+ENV['KAFKA_HOST']    = "localhost"
 
 require "bundler/setup"
 require 'rack/test'
@@ -52,34 +54,6 @@ class Minitest::Test
     unchanged_cl_data.each do |key, value|
       assert_equal(value, params[key.to_s].first, "Mismatch: #{key}")
     end
-  end
-
-  def generate_postback( overrides = {})
-    Postback.create({ :network       => "test",
-                      :event         => "ist",
-                      :platform      => "all",
-                      :user_id       => 1,
-                      :user_required => false,
-                      :store_user    => false,
-                      :env           => { },
-                      :url_template  => "http://localhost/fubar"
-                    }.merge(overrides))
-  end
-
-  def generate_campaign_link(merge_data = {})
-    CampaignLink.
-      create({ :device       => "ios",
-               :campaign_url => "http://www.example.org/",
-               :target_url   => {
-                 "ios"      => "http://example.org/ios",
-                 "android"  => "http://example.org/android",
-                 "fallback" => "http://example.org/fallback",
-                 "default"  => "http://example.org/default",
-               },
-               :country      => "DE",
-               :attribution_window_fingerprint => 10,
-               :attribution_window_idfa        => 100,
-             }.merge(merge_data))
   end
 
   def replace_in_env(changes)

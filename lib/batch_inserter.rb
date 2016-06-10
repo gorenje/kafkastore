@@ -14,10 +14,7 @@ class BatchInserter
 
       with_connection do
         raw_clicks.map do |raw|
-          uri = Addressable::URI.new
-          uri.query_values = raw[:meta]
-
-          producer.produce("%s %s %s" % [raw[:path], uri.query, raw[:params]],
+          producer.produce("%s %s %s" % [raw[:path], raw[:meta], raw[:params]],
                            :topic => raw[:topic])
         end
 
