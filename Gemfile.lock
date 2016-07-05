@@ -4,6 +4,12 @@ GIT
   specs:
     device_detector (0.8.2)
 
+GIT
+  remote: https://gist.github.com/gorenje/7ed69e4a1de2568970a69d166e1b6b0f.git
+  revision: bdc013665eb9bd611e750f1c0886eae17ef4aca2
+  specs:
+    adtekio_host_handler (0.0.2)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -154,6 +160,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  adtekio_host_handler!
   device_detector!
   dotenv
   fakeweb

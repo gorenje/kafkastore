@@ -31,6 +31,7 @@ gem 'librato-rack'
 gem 'maxminddb'
 gem 'device_detector', :github => 'wlf/device_detector'
 gem 'ruby-kafka'
+gem 'adtekio_host_handler', :gist => "gorenje/7ed69e4a1de2568970a69d166e1b6b0f"
 
 group :development do
   gem 'dotenv'

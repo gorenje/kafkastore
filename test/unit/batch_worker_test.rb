@@ -8,6 +8,12 @@ class BatchWorkerTest < Minitest::Test
     @queue.clear!
   end
 
+  context "kafka object" do
+    should "have correct send broker" do
+      assert_equal "localhost", $hosthandler.kafka.host
+    end
+  end
+
   context "converting redis strings" do
     should "handle missing user agent" do
       ts  = Time.now.to_i
