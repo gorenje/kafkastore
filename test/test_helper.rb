@@ -3,8 +3,9 @@ ENV['RACK_ENV']      = 'test'
 ENV['IP']            = 'www.example.com'
 ENV['PORT']          = '9999'
 ENV['TZ']            = 'UTC'
-ENV['REDISTOGO_URL'] = "redis://localhost:6379/27"
+ENV['REDISTOGO_URL'] = "redis://localhost:6379/12"
 ENV['KAFKA_HOST']    = "localhost"
+ENV['COOKIE_SECRET'] = 'babeca7ea679fa45ca92566e83d801bc0b'
 
 require "bundler/setup"
 require 'rack/test'
